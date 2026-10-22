@@ -8,8 +8,6 @@
 [![更新](https://img.shields.io/badge/更新-{{updated_short}}-blue)](sites.json)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE)
 
-**不卖 Key，不搞套路。只是把「哪里能免费拿到 AI 额度」整理清楚。**
-
 </div>
 
 ---
