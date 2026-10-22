@@ -1,7 +1,7 @@
 {
   "repo_name": "free-ai-keys",
   "title": "Free AI Keys",
-  "tagline": "每天签到领额度，7 天一轮，第 7 天有终极大奖",
+  "tagline": "注册送 $5 额度，每天还能签到领免费额度",
   "probe": {
     "mode": "auto",
     "timeout": 12,
@@ -12,8 +12,8 @@
     "enabled": true,
     "title": "免费领取",
     "name": "TryAPI",
-    "offer": "每天签到领 **$0.1 – $0.3** 平台额度，**7 天一轮**，第 7 天额外给 **$3 – $5** 终极大奖。额度可用于 Claude / GPT / Gemini / DeepSeek 等主流模型。",
-    "condition": "领取条件：当天至少成功调用 1 次（防止纯薅号占用额度）。",
+    "offer": "注册即送 **$5** 额度，每天还能签到领免费额度。可用于 Claude / GPT / Gemini / DeepSeek 等主流模型。",
+    "condition": "",
     "entries": [
       {
         "label": "注册入口（需科学上网）",
