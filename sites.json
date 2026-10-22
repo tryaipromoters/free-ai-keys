@@ -1,10 +1,66 @@
 [
   {
-    "name": "TryAPI",
-    "url": "https://tryapi.tryai.chat/register?aff=TZ9VWQV8ZHED",
-    "free": "注册即送免费额度，每日签到刷新",
-    "models": "Claude / GPT / Gemini / DeepSeek / Grok / Qwen",
+    "name": "智谱 BigModel",
+    "url": "https://bigmodel.cn/",
+    "free": "GLM-4-Flash 系列长期免费",
+    "models": "GLM-4-Flash / GLM-4V-Flash",
+    "needs_proxy": false,
+    "note": "国内直连，注册即用"
+  },
+  {
+    "name": "硅基流动 SiliconFlow",
+    "url": "https://cloud.siliconflow.cn/",
+    "free": "多款小参数模型免费",
+    "models": "Qwen / GLM / DeepSeek 部分型号",
+    "needs_proxy": false,
+    "note": "国内直连，OpenAI 兼容"
+  },
+  {
+    "name": "GitHub Models",
+    "url": "https://github.com/marketplace/models",
+    "free": "GitHub 账号免费调用，按天限次",
+    "models": "GPT / Llama / Phi / Mistral",
     "needs_proxy": true,
-    "note": "注册页需科学上网；接口走全球 CDN，调用无需代理"
+    "note": "有 GitHub 账号即可，适合测试"
+  },
+  {
+    "name": "Google AI Studio",
+    "url": "https://aistudio.google.com/apikey",
+    "free": "Gemini 免费层，按天限次",
+    "models": "Gemini 全系",
+    "needs_proxy": true,
+    "note": "额度较宽，需代理"
+  },
+  {
+    "name": "Groq",
+    "url": "https://console.groq.com/keys",
+    "free": "免费层限速，不限量",
+    "models": "Llama / Qwen / Kimi",
+    "needs_proxy": true,
+    "note": "速度极快，适合低延迟场景"
+  },
+  {
+    "name": "OpenRouter",
+    "url": "https://openrouter.ai/keys",
+    "free": "带 :free 后缀的模型免费",
+    "models": "多家中转，型号最全",
+    "needs_proxy": true,
+    "note": "一个 key 打通多家上游"
+  },
+  {
+    "name": "Cloudflare Workers AI",
+    "url": "https://dash.cloudflare.com/",
+    "free": "每日免费 neuron 额度",
+    "models": "Llama / Qwen / Mistral",
+    "needs_proxy": false,
+    "note": "需部署 Worker 转发，全球可用"
+  },
+  {
+    "name": "Mistral",
+    "url": "https://console.mistral.ai/api-keys/",
+    "free": "免费实验层",
+    "models": "Mistral / Codestral",
+    "needs_proxy": true,
+    "note": "Codestral 适合写代码"
   }
 ]

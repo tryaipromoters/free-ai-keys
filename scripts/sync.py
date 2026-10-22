@@ -154,8 +154,10 @@ def probe_one(entry, cfg):
             status, reason = classify(exc)
             elapsed = int((dt.datetime.now(dt.timezone.utc) - started).total_seconds() * 1000)
             last = {"status": status, "reason": reason, "latency_ms": elapsed}
-            if status in ("dead",):
+            if status == "dead" and isinstance(exc, urllib.error.HTTPError) and exc.code in (401, 403):
                 return last
+            if status == "dead":
+                continue
     return last
 
 
@@ -187,7 +189,7 @@ def load_previous():
     try:
         with STATUS_FILE.open(encoding="utf-8") as fh:
             data = json.load(fh)
-        return {row["key"]: row for row in data.get("results", [])}
+        return {row["masked"]: row for row in data.get("results", [])}
     except (json.JSONDecodeError, KeyError):
         return {}
 
@@ -206,7 +208,6 @@ def build_rows(entries, results):
                 "base_url": entry["base_url"],
                 "model": entry["model"],
                 "note": entry["note"],
-                "key": entry["key"],
                 "masked": mask(entry["key"]),
                 "status": res["status"],
                 "reason": res["reason"],
@@ -218,7 +219,10 @@ def build_rows(entries, results):
 
 def archive_dead(entries, rows):
     """把 dead 的 key 从 keys.txt 移到 keys/archive/YYYY-MM.txt。返回移动数量。"""
-    dead = {r["key"] for r in rows if r["status"] == "dead"}
+    dead_masked = {r["masked"] for r in rows if r["status"] == "dead"}
+    if not dead_masked:
+        return 0
+    dead = {e["key"] for e in entries if mask(e["key"]) in dead_masked}
     if not dead:
         return 0
     ARCHIVE_DIR.mkdir(parents=True, exist_ok=True)
@@ -291,7 +295,7 @@ def render(sites, cfg, rows, offline):
         if not p.get("url"):
             print("[warn] config.json 的 premium.enabled 为 true 但 premium.url 为空，稳定通道区块不会渲染", file=sys.stderr)
             return ""
-        lines = ["## 稳定通道", ""]
+        lines = []
         if p.get("offer"):
             lines.append(p["offer"])
             lines.append("")
@@ -356,6 +360,7 @@ def render(sites, cfg, rows, offline):
         for name, value in values.items():
             out = out.replace("{{" + name + "}}", str(value))
         out = re.sub(r"\{\{[a-z_]+\}\}", "", out)
+        out = re.sub(r"\n{3,}", "\n\n", out)
     else:
         out = f"# {values['title']}\n\n{values['tagline']}\n\n{values['key_table']}"
 
@@ -375,14 +380,14 @@ def main():
 
     previous = load_previous()
     if args.offline:
-        results = {
-            e["key"]: {
-                "status": previous.get(e["key"], {}).get("status", "skipped"),
-                "reason": previous.get(e["key"], {}).get("reason", "离线渲染"),
-                "latency_ms": previous.get(e["key"], {}).get("latency_ms"),
+        results = {}
+        for e in entries:
+            prev = previous.get(mask(e["key"]), {})
+            results[e["key"]] = {
+                "status": prev.get("status", "skipped"),
+                "reason": prev.get("reason", "离线渲染"),
+                "latency_ms": prev.get("latency_ms"),
             }
-            for e in entries
-        }
         print(f"[offline] 复用上次结果，共 {len(entries)} 条")
     else:
         print(f"[probe] 正在检测 {len(entries)} 条…")
