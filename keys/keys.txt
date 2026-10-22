@@ -1,6 +1,0 @@
-# 格式：名称|BaseURL|模型|Key|备注|探活方式
-# 探活方式可省略，默认 auto；可选 models / chat / none
-# 以 # 开头的行会被忽略，空行会被忽略
-#
-# 示例（把下面几行删掉，粘你自己的）：
-# 示例站|https://api.example.com/v1|gpt-4o-mini|sk-xxxxxxxxxxxxxxxxxxxxxxxx|速度尚可|models

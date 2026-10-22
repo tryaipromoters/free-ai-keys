@@ -1,7 +1,7 @@
 {
   "repo_name": "free-ai-keys",
   "title": "Free AI Keys",
-  "tagline": "每日检测的免费 AI API Key，失效即删",
+  "tagline": "每天签到领额度，7 天一轮，第 7 天有终极大奖",
   "probe": {
     "mode": "auto",
     "timeout": 12,
@@ -10,10 +10,10 @@
   },
   "premium": {
     "enabled": true,
-    "title": "稳定通道",
+    "title": "免费领取",
     "name": "TryAPI",
-    "needs_proxy": true,
-    "offer": "免费 Key 日抛且限流。需要稳定、不限速、支持 Claude Code / Codex 的通道，用下面这个：",
+    "offer": "每天签到领 **$0.1 – $0.3** 平台额度，**7 天一轮**，第 7 天额外给 **$3 – $5** 终极大奖。额度可用于 Claude / GPT / Gemini / DeepSeek 等主流模型。",
+    "condition": "领取条件：当天至少成功调用 1 次（防止纯薅号占用额度）。",
     "entries": [
       {
         "label": "注册入口（需科学上网）",
