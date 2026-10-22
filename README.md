@@ -8,7 +8,7 @@
 [![检测时间](https://img.shields.io/badge/updated-2026-10-22-blue)](data/status.json)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE)
 
-**最近检测 2026-10-22 11:29 UTC** ｜ 可用 **0** ｜ 正常 0 ｜ 限流 0 ｜ 已失效 0 ｜ 异常 0 ｜ 共 0
+**最近检测 2026-10-22 12:10 UTC** ｜ 可用 **0** ｜ 正常 0 ｜ 限流 0 ｜ 已失效 0 ｜ 异常 0 ｜ 共 0
 
 <sub>每日自动探活。失效即删，不保留死链。</sub>
 
@@ -70,11 +70,10 @@ print(client.chat.completions.create(
 
 免费 Key 日抛且限流。需要稳定、不限速、支持 Claude Code / Codex 的通道，用下面这个：
 
-- **接口地址**：`https://api.tryaigc.cn/v1`
-  <sub>接口走全球 CDN，调用不需要代理</sub>
-- **注册入口**：**[TryAPI →](https://tryapi.tryai.chat/register?aff=TZ9VWQV8ZHED)**
+- 🌐 **[注册入口（需科学上网） →](https://tryapi.tryai.chat/register?aff=TZ9VWQV8ZHED)**
+- 🌏 **[注册入口（全球 CDN 直连） →](https://api.tryaigc.cn/register?aff=TZ9VWQV8ZHED)**
 
-> ⚠️ 注册页需**科学上网**（魔法）才能打开；接口地址走全球 CDN，调用无需代理。
+> 🌐 需**科学上网**（魔法）｜🌏 全球直连，无需代理
 
 ---
 
@@ -98,6 +97,6 @@ print(client.chat.completions.create(
 
 **如果这个仓库帮你省了钱，点个 ⭐ 就是最好的支持。**
 
-<sub>自动生成于 2026-10-22 11:29 UTC ｜ 请勿手动编辑本文件</sub>
+<sub>自动生成于 2026-10-22 12:10 UTC ｜ 请勿手动编辑本文件</sub>
 
 </div>

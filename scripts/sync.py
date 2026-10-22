@@ -292,22 +292,24 @@ def render(sites, cfg, rows, offline):
         p = cfg.get("premium", {})
         if not p.get("enabled"):
             return ""
-        if not p.get("url"):
-            print("[warn] config.json 的 premium.enabled 为 true 但 premium.url 为空，稳定通道区块不会渲染", file=sys.stderr)
+        entries = p.get("entries") or []
+        if not entries and p.get("url"):
+            entries = [{"label": "注册入口", "url": p["url"], "needs_proxy": p.get("needs_proxy")}]
+        entries = [e for e in entries if e.get("url")]
+        if not entries:
+            print("[warn] config.json 的 premium.enabled 为 true 但没有可用入口（premium.entries / premium.url 均为空）", file=sys.stderr)
             return ""
         lines = []
         if p.get("offer"):
             lines.append(p["offer"])
             lines.append("")
-        if p.get("api_base"):
-            lines.append(f"- **接口地址**：`{p['api_base']}`")
-            if p.get("api_base_note"):
-                lines.append(f"  <sub>{p['api_base_note']}</sub>")
-        lines.append(f"- **注册入口**：**[{p.get('name') or '点此进入'} →]({p['url']})**")
-        if p.get("needs_proxy"):
-            lines.append("")
-            lines.append("> ⚠️ 注册页需**科学上网**（魔法）才能打开；接口地址走全球 CDN，调用无需代理。")
+        for e in entries:
+            icon = "🌐" if e.get("needs_proxy") else "🌏"
+            lines.append(f"- {icon} **[{e.get('label') or '注册'} →]({e['url']})**")
         lines.append("")
+        if any(e.get("needs_proxy") for e in entries):
+            lines.append("> 🌐 需**科学上网**（魔法）｜🌏 全球直连，无需代理")
+            lines.append("")
         return "\n".join(lines)
 
     def ads_block():

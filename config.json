@@ -12,11 +12,20 @@
     "enabled": true,
     "title": "稳定通道",
     "name": "TryAPI",
-    "url": "https://tryapi.tryai.chat/register?aff=TZ9VWQV8ZHED",
     "needs_proxy": true,
-    "api_base": "https://api.tryaigc.cn/v1",
-    "api_base_note": "接口走全球 CDN，调用不需要代理",
-    "offer": "免费 Key 日抛且限流。需要稳定、不限速、支持 Claude Code / Codex 的通道，用下面这个："
+    "offer": "免费 Key 日抛且限流。需要稳定、不限速、支持 Claude Code / Codex 的通道，用下面这个：",
+    "entries": [
+      {
+        "label": "注册入口（需科学上网）",
+        "url": "https://tryapi.tryai.chat/register?aff=TZ9VWQV8ZHED",
+        "needs_proxy": true
+      },
+      {
+        "label": "注册入口（全球 CDN 直连）",
+        "url": "https://api.tryaigc.cn/register?aff=TZ9VWQV8ZHED",
+        "needs_proxy": false
+      }
+    ]
   },
   "ads": [],
   "disclaimer_extra": ""
