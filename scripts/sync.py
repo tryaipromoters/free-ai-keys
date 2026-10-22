@@ -194,6 +194,28 @@ def load_previous():
         return {}
 
 
+def load_status_raw():
+    if not STATUS_FILE.exists():
+        return {}
+    try:
+        with STATUS_FILE.open(encoding="utf-8") as fh:
+            return json.load(fh)
+    except json.JSONDecodeError:
+        return {}
+
+
+def fingerprint(rows):
+    """实质变化的指纹：不含延迟、不含时间戳。"""
+    if not rows:
+        return ()
+    return tuple(
+        sorted(
+            (r["name"], r["base_url"], r["model"], r.get("masked", ""), r["status"], r["reason"])
+            for r in rows
+        )
+    )
+
+
 def build_rows(entries, results):
     rows = []
     for entry in entries:
@@ -249,8 +271,11 @@ def archive_dead(entries, rows):
     return len(moved_lines) // 2
 
 
-def render(sites, cfg, rows, offline):
-    now = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+def render(sites, cfg, rows, offline, now=None, now_short=None):
+    if now is None:
+        now = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    if now_short is None:
+        now_short = now.split(" ")[0]
     alive = [r for r in rows if r["status"] in ("ok", "limited")]
     ok = [r for r in rows if r["status"] == "ok"]
     dead = [r for r in rows if r["status"] == "dead"]
@@ -327,7 +352,7 @@ def render(sites, cfg, rows, offline):
 
     stats = {
         "updated": now,
-        "updated_short": now.split(" ")[0],
+        "updated_short": now_short,
         "total": len(rows),
         "ok": len(ok),
         "limited": len(alive) - len(ok),
@@ -342,7 +367,7 @@ def render(sites, cfg, rows, offline):
         "tagline": cfg.get("tagline", ""),
         "repo_name": cfg.get("repo_name", "free-ai-keys"),
         "updated": now,
-        "updated_short": now.split(" ")[0],
+        "updated_short": now_short,
         "count_total": len(rows),
         "count_ok": len(ok),
         "count_limited": len(alive) - len(ok),
@@ -373,6 +398,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--offline", action="store_true", help="不联网，复用上次探活结果")
     parser.add_argument("--prune", action="store_true", help="把失效 key 移到 keys/archive/")
+    parser.add_argument("--force", action="store_true", help="状态无变化也强制重写文件")
     args = parser.parse_args()
 
     cfg = load_config()
@@ -397,12 +423,22 @@ def main():
 
     rows = build_rows(entries, results)
 
+    moved = 0
     if args.prune:
         moved = archive_dead(entries, rows)
         if moved:
             entries, _ = parse_keys(KEYS_FILE)
             rows = build_rows(entries, results)
         print(f"[prune] 归档 {moved} 条失效 Key")
+
+    prev = load_status_raw()
+    if not args.force and not moved and fingerprint(rows) == fingerprint(prev.get("results")):
+        stats = prev.get("stats", {})
+        print(
+            f"[skip] 状态无变化，不更新文件（上次更新 {stats.get('updated', '未知')}）｜"
+            f"总计 {stats.get('total', len(rows))}｜可用 {stats.get('ok', 0)}"
+        )
+        return
 
     readme, stats = render(load_sites(), cfg, rows, args.offline)
     README_FILE.write_text(readme, encoding="utf-8")

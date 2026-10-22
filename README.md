@@ -8,7 +8,7 @@
 [![检测时间](https://img.shields.io/badge/updated-2026-10-22-blue)](data/status.json)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE)
 
-**最近检测 2026-10-22 12:10 UTC** ｜ 可用 **0** ｜ 正常 0 ｜ 限流 0 ｜ 已失效 0 ｜ 异常 0 ｜ 共 0
+**最近检测 2026-10-22 12:23 UTC** ｜ 可用 **0** ｜ 正常 0 ｜ 限流 0 ｜ 已失效 0 ｜ 异常 0 ｜ 共 0
 
 <sub>每日自动探活。失效即删，不保留死链。</sub>
 
@@ -97,6 +97,6 @@ print(client.chat.completions.create(
 
 **如果这个仓库帮你省了钱，点个 ⭐ 就是最好的支持。**
 
-<sub>自动生成于 2026-10-22 12:10 UTC ｜ 请勿手动编辑本文件</sub>
+<sub>自动生成于 2026-10-22 12:23 UTC ｜ 请勿手动编辑本文件</sub>
 
 </div>
