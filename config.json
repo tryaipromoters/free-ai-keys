@@ -1,19 +1,11 @@
 {
   "repo_name": "free-ai-keys",
-  "title": "Free AI Keys",
-  "tagline": "注册送 $5 额度，每天还能签到领免费额度",
-  "probe": {
-    "mode": "auto",
-    "timeout": 12,
-    "workers": 8,
-    "chat_max_tokens": 1
-  },
+  "title": "Free AI Token",
+  "tagline": "收集全网可以白嫖的 AI Token，持续更新，顺手也能直接用",
   "premium": {
     "enabled": true,
-    "title": "免费领取",
-    "name": "TryAPI",
-    "offer": "注册即送 **$5** 额度，每天还能签到领免费额度。可用于 Claude / GPT / Gemini / DeepSeek 等主流模型。",
-    "condition": "",
+    "title": "最新羊毛",
+    "highlight": "TryAPI：注册送 $5，每天签到还能再领一笔，连签 7 天有额外大奖",
     "entries": [
       {
         "label": "注册入口（需科学上网）",
@@ -25,7 +17,11 @@
         "url": "https://api.tryaigc.cn/register?aff=TZ9VWQV8ZHED",
         "needs_proxy": false
       }
-    ]
+    ],
+    "bonus": "注册送 $5，每天签到再领，连签 7 天有额外大奖",
+    "models": "Claude / GPT / Gemini / DeepSeek / Grok / Qwen",
+    "note": "本站自营，额度用平台额度计",
+    "name": "TryAPI（本站）"
   },
   "ads": [],
   "disclaimer_extra": ""

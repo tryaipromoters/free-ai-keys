@@ -51,23 +51,30 @@ def premium_block(cfg):
     if not entries:
         return ""
     lines = []
-    if p.get("offer"):
-        lines += [p["offer"], ""]
+    if p.get("highlight"):
+        lines += [f"**{p['highlight']}**", ""]
     for e in entries:
         icon = "🌐" if e.get("needs_proxy") else "🌏"
-        lines += [f"### {icon} [{e.get('label') or '注册'} →]({e['url']})", ""]
+        lines += [f"- {icon} **[{e.get('label') or '注册'} →]({e['url']})**"]
+    lines.append("")
     if any(e.get("needs_proxy") for e in entries):
-        lines += ["> 🌐 需**科学上网**（魔法）才能打开｜🌏 全球 CDN 直连，无需代理", ""]
-    if p.get("condition"):
-        lines += [f"> ⚠️ {p['condition']}", ""]
+        lines += ["> 🌐 需**科学上网**才能打开｜🌏 全球 CDN 直连，无需代理", ""]
     return "\n".join(lines)
 
 
-def site_table(sites):
-    if not sites:
-        return "> 暂无收录。编辑 `sites.json` 添加。\n"
-    head = "| 名称 | 免费额度 | 模型 | 网络 | 备注 | 入口 |\n| :-- | :-- | :-- | :--: | :-- | :--: |\n"
+def deals_table(cfg, sites):
+    """羊毛总表：本站 + 官方免费渠道，统一成一张表。"""
     rows = []
+    p = cfg.get("premium") or {}
+    if p.get("enabled") and p.get("entries"):
+        proxy = any(e.get("needs_proxy") for e in p["entries"])
+        urls = " ｜ ".join(
+            f"[{'需魔法' if e.get('needs_proxy') else '直连'}]({e['url']})" for e in p["entries"]
+        )
+        rows.append(
+            f"| **{p.get('name', '—')}** | {p.get('bonus', '—')} | {p.get('models', '—')} | "
+            f"{'🌐 注册需代理' if proxy else '🌏 全球直连'} | {p.get('note', '—')} | {urls} |"
+        )
     for s in sites:
         proxy = s.get("needs_proxy")
         access = "🌐 需代理" if proxy else ("🌏 全球直连" if proxy is False else "—")
@@ -75,6 +82,9 @@ def site_table(sites):
             f"| {s.get('name', '—')} | {s.get('free', '—')} | {s.get('models', '—')} | "
             f"{access} | {s.get('note', '—')} | [注册 →]({s.get('url', '#')}) |"
         )
+    if not rows:
+        return "> 暂无收录。\n"
+    head = "| 名称 | 免费额度 | 支持模型 | 网络 | 备注 | 入口 |\n| :-- | :-- | :-- | :--: | :-- | :--: |\n"
     return head + "\n".join(rows) + "\n"
 
 
@@ -98,14 +108,14 @@ def render(cfg, sites, now=None):
     template = TEMPLATE_FILE.read_text(encoding="utf-8")
 
     values = {
-        "title": cfg.get("title", "Free AI Keys"),
+        "title": cfg.get("title", "Free AI Token"),
         "tagline": cfg.get("tagline", ""),
         "repo_name": cfg.get("repo_name", "free-ai-keys"),
         "updated": now,
         "updated_short": now.split(" ")[0],
         "site_count": len(sites),
         "premium_block": premium_block(cfg),
-        "site_table": site_table(sites),
+        "deals_table": deals_table(cfg, sites),
         "ads_block": ads_block(cfg),
         "disclaimer_extra": cfg.get("disclaimer_extra", ""),
     }

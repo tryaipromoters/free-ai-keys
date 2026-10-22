@@ -4,108 +4,125 @@
 
 {{tagline}}
 
-[![注册送$5](https://img.shields.io/badge/注册送-$5-brightgreen)](https://tryapi.tryai.chat/register?aff=TZ9VWQV8ZHED)
-[![每日签到](https://img.shields.io/badge/每日还能-签到-blue)](https://tryapi.tryai.chat/register?aff=TZ9VWQV8ZHED)
+[![收录](https://img.shields.io/badge/收录-{{site_count}}%20%2B%201%20家-brightgreen)](sites.json)
+[![更新](https://img.shields.io/badge/更新-{{updated_short}}-blue)](sites.json)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE)
 
-**不用挑 Key，不用等更新。注册 → 直接能用。**
+**不卖 Key，不搞套路。只是把「哪里能免费拿到 AI 额度」整理清楚。**
 
 </div>
 
 ---
 
-## 🎁 免费领取
+## 📌 最新羊毛
 
 {{premium_block}}
 
 ---
 
-## ⚡ 三步跑通
+## 🧾 全部免费渠道
 
-**1. 注册**（上面任一入口，两个是同一个站）→ 立刻到账 **$5**
+{{deals_table}}
 
-**2. 拿 Key**
+**怎么选？**
 
-登录后进控制台，复制你的 API Key。
+- **想立刻用、不想折腾** → 最上面几行，注册就能拿
+- **想自己掌控、长期稳定** → 智谱 / 硅基流动 / Cloudflare，Key 归你自己
+- **只是想试一下模型效果** → OVHcloud 和 LLM7 不用注册就能打
 
-**3. 换上 Base URL 直接用**
+---
+
+## ⚡ 5 分钟接上
+
+拿到任意一个 Base URL + Key 后，所有主流工具都是同一套配法。
+
+### 命令行验证
 
 ```bash
-export OPENAI_BASE_URL="https://api.tryai.chat/v1"
-export OPENAI_API_KEY="sk-你的key"
+curl "$BASE_URL/chat/completions" \
+  -H "Authorization: Bearer $API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"model":"deepseek-v4.1-flash","messages":[{"role":"user","content":"hi"}]}'
 ```
+
+### Python
 
 ```python
 from openai import OpenAI
 
-client = OpenAI(
-    base_url="https://api.tryai.chat/v1",
-    api_key="sk-你的key",
-)
+client = OpenAI(base_url="你的 Base URL", api_key="你的 Key")
 
 resp = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="deepseek-v4.1-flash",
     messages=[{"role": "user", "content": "你好"}],
 )
 print(resp.choices[0].message.content)
 ```
 
-兼容任何接受 `baseURL` + `apiKey` 的工具：**Cursor / Cline / Aider / Claude Code / Codex / Open WebUI / LobeChat / Chatbox / NextChat** 等，填 Base URL 和 Key 即可。
+### 热门工具
+
+这些是目前最主流的 AI 编程工具，都支持自定义 Base URL + Key：
+
+| 工具 | 类型 | 说明 |
+| :-- | :-- | :-- |
+| **[OpenCode](https://opencode.ai)** | 终端 Agent | 最流行的开源终端编码 Agent，支持 75+ 家 provider，MIT |
+| **[Claude Code](https://www.anthropic.com/claude-code)** | 终端 Agent | Anthropic 官方，agentic 能力最强 |
+| **[Codex CLI](https://github.com/openai/codex)** | 终端 Agent | OpenAI 官方，OS 级沙箱，Apache-2.0 |
+| **[Gemini CLI](https://github.com/google-gemini/gemini-cli)** | 终端 Agent | Google 官方，免费层额度最大 |
+| **[Cursor](https://cursor.com)** | IDE | AI 原生编辑器，日常写代码最顺手 |
+| **[Cline](https://cline.bot)** | VS Code 插件 | 开源，支持任意 provider |
+| **[Aider](https://github.com/Aider-AI/aider)** | 终端工具 | 老牌，git 集成紧密 |
+| **[Cherry Studio](https://cherry-ai.com)** | 桌面客户端 | 国内主流，多模型切换方便 |
+| **[LobeChat](https://lobehub.com)** | 桌面 / Web | 界面好看，插件生态丰富 |
+| **[Open WebUI](https://openwebui.com)** | 自部署 Web | 团队内部用，私有化部署 |
+
+> 所有工具填的都是「Base URL + API Key」这两项。
+
+### 常用模型名
+
+各家命名不完全一致，下面是当前主流模型：
+
+| 模型 | 说明 |
+| :-- | :-- |
+| `deepseek-v4.1-flash` | DeepSeek 主力，1M 上下文，性价比极高 |
+| `kimi-k3` | Moonshot，1M 上下文，agentic 强 |
+| `glm-5.3` | 智谱，开源权重 |
+| `gpt-6.1-sol` | OpenAI 旗舰 |
+| `claude-opus-5.5` | Anthropic 旗舰 |
+| `gemini-4-argon` | Google 旗舰 |
+
+> 具体可用模型以各站点 `/models` 接口返回为准。
 
 ---
 
-## 📅 每天还能签到
+## ❓ 关于这个仓库
 
-注册之后，**每天登录签到**还能再领一笔免费额度。
+**这里是什么？**
+一份持续维护的「免费 AI 额度」清单。所有条目都指向**官方或自营的注册页**，你注册后拿自己的 Key。
 
-- 连续签到有累计奖励，**第 7 天额外给一份大奖**
-- 中途断了会重新计算
-- 额度是平台额度，可用于上游所有支持的模型（Claude / GPT / Gemini / DeepSeek / Grok / Qwen 等）
+**为什么不直接发 Key？**
+公开贴出来的 Key 几分钟内就会被爬虫扫走，等你打开时已经失效了。注册领取的 Key 是你自己的，不会被人抢。
 
-具体金额以站内显示为准。
+**收录标准是什么？**
+只收**能自己注册拿到 Key** 的渠道。不收来路不明的 Key 池，不收需要倒卖的账号。
 
----
+**怎么判断哪个靠谱？**
+优先官方免费层（智谱、Google、Groq 这类），它们不会突然跑路。中转站类的建议**不要充值大额、不要绑定主账号**。
 
-## 🔌 官方免费额度（16 家）
-
-不想依赖任何中转？以下都是**厂商自己的免费层**，Key 归你自己，不会被别人用光，也不会突然跑路：
-
-{{site_table}}
-
-{{ads_block}}
----
-
-## ❓ 常见问题
-
-**Q：额度用完了怎么办？**
-A：等明天签到，或者充值。仓库里剩下的官方免费渠道也可以直接用。
-
-**Q：为什么注册要科学上网？**
-A：注册页在海外。接口本身走全球 CDN，**日常调用不需要代理**。
-
-**Q：额度会过期吗？**
-A：不会。注册送的 $5 和签到领的额度都不消耗时间，用完为止。
-
-**Q：上游会看到我的数据吗？**
-A：会。免费通道的上游可能记录请求内容用于改进服务，**不要提交隐私或商业机密**。
+**发现信息过时？**
+开 Issue 或 PR，附上官方页面链接。核实后会更新。
 
 ---
 
 ## ⚠️ 免责声明
 
-- 本仓库仅做信息汇总与入口索引，不运营、不担保任何第三方服务。
+- 本仓库仅做信息汇总，**不运营、不担保**任何第三方服务。
 - 免费额度、规则、可用性**随时可能变化**，以站点实时页面为准。
 - 请勿用于商业转售、批量注册、模型训练等违反上游条款的用途。
-- 使用第三方中转存在「降智」「掺水」「跑路」风险，**不要充值大额资金，不要绑定主账号**。
+- 免费通道的上游可能记录请求内容，**不要提交隐私或商业机密**。
 {{disclaimer_extra}}
 
 ---
-
-## 🤝 贡献
-
-- 发现新的官方免费渠道：开 PR，附上**官方文档链接**和额度说明。
-- 报告额度/规则变化：开 Issue，写清楚哪一条不对。
-- 只收**能自己注册拿到 key 的官方渠道**，不收来路不明的 key 池。
 
 <div align="center">
 
