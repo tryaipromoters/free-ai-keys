@@ -1,0 +1,10 @@
+[
+  {
+    "name": "TryAPI",
+    "url": "https://tryapi.tryai.chat/register?aff=TZ9VWQV8ZHED",
+    "free": "注册即送免费额度，每日签到刷新",
+    "models": "Claude / GPT / Gemini / DeepSeek / Grok / Qwen",
+    "needs_proxy": true,
+    "note": "注册页需科学上网；接口走全球 CDN，调用无需代理"
+  }
+]
